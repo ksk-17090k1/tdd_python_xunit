@@ -1,14 +1,13 @@
 from pydantic import BaseModel
+from TestCase import TestCase
 
 
-class WasRun(BaseModel):
+class WasRun(TestCase):
     wasRun: str = None
     name: str
 
-    def run(self):
-        # pluggable selector pattern
-        method = getattr(self, self.name)
-        method()
+    def __init__(self, name: str):
+        super().__init__(name=name)
 
     def testMethod(self):
         self.wasRun = 1
