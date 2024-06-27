@@ -4,6 +4,7 @@ from pydantic import BaseModel
 class TestCase(BaseModel):
     name: str
 
+    # abstract method
     def setUp(self): ...
 
     def run(self):
