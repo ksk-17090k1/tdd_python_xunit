@@ -3,15 +3,10 @@ from WasRun import WasRun
 
 
 class TestCaseTest(TestCase):
-    test: WasRun | None = None
-
-    # override
-    def setUp(self):
-        self.test = WasRun(name="testMethod")
-
     def testTemplateMethod(self):
-        self.test.run()
-        assert self.test.log == "setUp testMethod "
+        test = WasRun(name="testMethod")
+        test.run()
+        assert test.log == "setUp testMethod tearDown "
 
 
 TestCaseTest(name="testTemplateMethod").run()
