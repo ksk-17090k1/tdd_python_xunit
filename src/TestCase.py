@@ -1,4 +1,5 @@
 from pydantic import BaseModel
+from TestResult import TestResult
 
 
 class TestCase(BaseModel):
@@ -15,3 +16,4 @@ class TestCase(BaseModel):
         method = getattr(self, self.name)
         method()
         self.tearDown()
+        return TestResult()
