@@ -8,7 +8,8 @@ class TestResult(BaseModel):
     def testStarted(self):
         self.run_count += 1
 
+    def testFailed(self):
+        self.failed_count += 1
+
     def summary(self):
-        run_count = 1
-        failed_count = 0
-        return f"{run_count} run, {failed_count} failed"
+        return f"{self.run_count} run, {self.failed_count} failed"
