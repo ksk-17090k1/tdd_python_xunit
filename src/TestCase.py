@@ -5,20 +5,18 @@ from TestResult import TestResult
 class TestCase(BaseModel):
     name: str
 
-    # abstract method
     def setUp(self): ...
 
-    # abstract method
     def tearDown(self): ...
 
-    def run(self):
-        result = TestResult()
+    def run(self, result):
         result.testStarted()
         self.setUp()
         try:
             method = getattr(self, self.name)
             method()
         except Exception as e:
+            print(e)
             result.testFailed()
         self.tearDown()
         return result
