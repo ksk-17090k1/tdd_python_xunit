@@ -1,5 +1,3 @@
-import re
-
 from TestCase import TestCase
 from TestResult import TestResult
 from TestSuite import TestSuite
@@ -13,6 +11,8 @@ class TestCaseTest(TestCase):
         self.result = TestResult()
 
     def testTemplateMethod(self):
+        if self.result is None:
+            raise ValueError("result is None")
         test = WasRun(name="testMethod")
         _ = test.run(self.result)
         assert test.log == "setUp testMethod tearDown "
@@ -40,6 +40,7 @@ class TestCaseTest(TestCase):
 
     def testSuite(self):
         suite = TestSuite()
+        # WasRunクラスの２つのメソッドをテスト
         suite.add(WasRun(name="testMethod"))
         suite.add(WasRun(name="testBrokenMethod"))
         result = TestResult()
@@ -49,6 +50,7 @@ class TestCaseTest(TestCase):
 
 if __name__ == "__main__":
     suite = TestSuite()
+    # [重要!] ここではテストしたい対象はTestCaseTestクラスなのでそれをaddする
     suite.add(TestCaseTest(name="testTemplateMethod"))
     suite.add(TestCaseTest(name="testResult"))
     suite.add(TestCaseTest(name="testFailedResultFormating"))

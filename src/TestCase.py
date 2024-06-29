@@ -3,13 +3,15 @@ from TestResult import TestResult
 
 
 class TestCase(BaseModel):
+    """ロジックのコアとなるクラス"""
+
     name: str
 
     def setUp(self): ...
 
     def tearDown(self): ...
 
-    def run(self, result):
+    def run(self, result: TestResult) -> TestResult:
         result.testStarted()
         self.setUp()
         try:
