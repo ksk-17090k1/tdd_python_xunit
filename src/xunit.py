@@ -7,28 +7,35 @@ from WasRun import WasRun
 
 
 class TestCaseTest(TestCase):
+    result: TestResult | None = None
+
+    def setUp(self):
+        self.result = TestResult()
+
     def testTemplateMethod(self):
-        result = TestResult()
         test = WasRun(name="testMethod")
-        test.run(result)
+        _ = test.run(self.result)
         assert test.log == "setUp testMethod tearDown "
 
     def testResult(self):
-        result = TestResult()
+        if self.result is None:
+            raise ValueError("result is None")
         test = WasRun(name="testMethod")
-        result = test.run(result)
+        result = test.run(self.result)
         assert "1 run, 0 failed" == result.summary()
 
     def testFailedResultFormating(self):
-        result = TestResult()
-        result.testStarted()
-        result.testFailed()
-        assert "1 run, 1 failed" == result.summary()
+        if self.result is None:
+            raise ValueError("result is None")
+        self.result.testStarted()
+        self.result.testFailed()
+        assert "1 run, 1 failed" == self.result.summary()
 
     def testFailedResult(self):
-        result = TestResult()
+        if self.result is None:
+            raise ValueError("result is None")
         test = WasRun(name="testBrokenMethod")
-        result = test.run(result)
+        result = test.run(self.result)
         assert "1 run, 1 failed" == result.summary()
 
     def testSuite(self):
