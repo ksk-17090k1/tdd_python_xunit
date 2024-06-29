@@ -15,7 +15,10 @@ class TestCase(BaseModel):
         result = TestResult()
         result.testStarted()
         self.setUp()
-        method = getattr(self, self.name)
-        method()
+        try:
+            method = getattr(self, self.name)
+            method()
+        except Exception as e:
+            result.testFailed()
         self.tearDown()
         return result
