@@ -1,7 +1,7 @@
 import abc
 
+from my_unittest.TestResult import TestResult
 from pydantic import BaseModel
-from TestResult import TestResult
 
 
 class ITestCase(abc.ABC):

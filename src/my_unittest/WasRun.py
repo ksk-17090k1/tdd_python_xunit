@@ -1,6 +1,6 @@
+from my_unittest.TestCase import ITestCase, TestCase
+from my_unittest.TestResult import TestResult
 from pydantic import BaseModel
-from TestCase import ITestCase, TestCase
-from TestResult import TestResult
 
 
 class WasRun(BaseModel, ITestCase):

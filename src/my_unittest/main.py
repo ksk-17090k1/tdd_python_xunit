@@ -1,9 +1,9 @@
 from typing import Type
 
-from TestCase import TestCase
-from TestResult import TestResult
-from TestSuite import TestSuite
-from utils import get_test_methods
+from my_unittest.TestCase import TestCase
+from my_unittest.TestResult import TestResult
+from my_unittest.TestSuite import TestSuite
+from my_unittest.utils import get_test_methods
 
 
 def main(cls: Type[TestCase]):

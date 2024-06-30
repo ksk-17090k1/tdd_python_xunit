@@ -1,12 +1,18 @@
-from main import main
-from TestCase import TestCase
-from TestResult import TestResult
-from TestSuite import TestSuite
-from WasRun import WasRun
+import sys
+
+sys.path.append(".")
+
+from my_unittest.main import main
+from my_unittest.TestCase import TestCase
+from my_unittest.TestResult import TestResult
+from my_unittest.TestSuite import TestSuite
+from my_unittest.WasRun import WasRun
 
 
 class TestCaseTest(TestCase):
-    """テストコードに相当するクラス"""
+    """TestCaseクラスのテスト
+    本「テスト駆動開発」ではこのテストを使ってTDDで開発されたクラスがTestCaseクラス
+    """
 
     result: TestResult = TestResult()
 

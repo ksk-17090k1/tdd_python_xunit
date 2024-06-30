@@ -18,3 +18,6 @@ update: .venv requirements.txt requirements-dev.txt
 	@echo "Create .venv"
 	@python3 -m venv .venv
 	make update
+
+test:
+	python tests/test.py
