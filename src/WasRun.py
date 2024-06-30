@@ -1,17 +1,29 @@
-from TestCase import TestCase
+from pydantic import BaseModel
+from TestCase import ITestCase, TestCase
+from TestResult import TestResult
 
 
-class WasRun(TestCase):
+class WasRun(BaseModel, ITestCase):
     """runされるクラス. つまりテストしたい対象のクラス"""
 
+    name: str
+    test_case: TestCase
     log: str = ""
 
     def __init__(self, name: str):
-        super().__init__(name=name)
+        super().__init__(name=name, test_case=TestCase(name=name))
+
+    # override
+    def run(self, result: TestResult, test_case: ITestCase):
+        return self.test_case.run(result, test_case=test_case)
 
     # override
     def setUp(self):
         self.log = "setUp" + " "
+
+    # override
+    def tearDown(self):
+        self.log += "tearDown" + " "
 
     def testMethod(self):
         """テストしたいメソッド"""
@@ -20,6 +32,3 @@ class WasRun(TestCase):
     def testBrokenMethod(self):
         """テストしたいメソッドで、かつエラーが発生するメソッド"""
         raise Exception
-
-    def tearDown(self):
-        self.log += "tearDown" + " "

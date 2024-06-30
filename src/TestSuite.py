@@ -1,14 +1,14 @@
 from pydantic import BaseModel
-from TestCase import TestCase
+from TestCase import ITestCase
 from TestResult import TestResult
 
 
 class TestSuite(BaseModel):
-    tests: list[TestCase] = []
+    tests: list[object] = []
 
-    def add(self, test: TestCase):
+    def add(self, test: ITestCase):
         self.tests.append(test)
 
     def run(self, result: TestResult):
-        [t.run(result) for t in self.tests]
+        [t.run(result, t) for t in self.tests if isinstance(t, ITestCase)]
         return result

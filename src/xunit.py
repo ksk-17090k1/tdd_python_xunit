@@ -1,27 +1,42 @@
-from TestCase import TestCase
+from pydantic import BaseModel
+from TestCase import ITestCase, TestCase
 from TestResult import TestResult
 from TestSuite import TestSuite
 from WasRun import WasRun
 
 
-class TestCaseTest(TestCase):
-    result: TestResult | None = None
+class TestCaseTest(BaseModel, ITestCase):
+    """テストコードに相当するクラス"""
 
+    result: TestResult | None = None
+    test_case: TestCase
+
+    def __init__(self, name: str):
+        super().__init__(name=name, test_case=TestCase(name=name))
+
+    # override
+    def run(self, result: TestResult, test_case: ITestCase) -> TestResult:
+        return self.test_case.run(result, test_case=test_case)
+
+    # override
     def setUp(self):
         self.result = TestResult()
+
+    # override
+    def tearDown(self): ...
 
     def testTemplateMethod(self):
         if self.result is None:
             raise ValueError("result is None")
         test = WasRun(name="testMethod")
-        _ = test.run(self.result)
+        _ = test.run(self.result, test_case=test)
         assert test.log == "setUp testMethod tearDown "
 
     def testResult(self):
         if self.result is None:
             raise ValueError("result is None")
         test = WasRun(name="testMethod")
-        result = test.run(self.result)
+        result = test.run(self.result, test_case=test)
         assert "1 run, 0 failed" == result.summary()
 
     def testFailedResultFormating(self):
@@ -35,7 +50,7 @@ class TestCaseTest(TestCase):
         if self.result is None:
             raise ValueError("result is None")
         test = WasRun(name="testBrokenMethod")
-        result = test.run(self.result)
+        result = test.run(self.result, test_case=test)
         assert "1 run, 1 failed" == result.summary()
 
     def testSuite(self):

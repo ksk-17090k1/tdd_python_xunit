@@ -1,8 +1,23 @@
+import abc
+
 from pydantic import BaseModel
 from TestResult import TestResult
 
 
-class TestCase(BaseModel):
+class ITestCase(abc.ABC):
+    name: str
+
+    @abc.abstractmethod
+    def setUp(self): ...
+
+    @abc.abstractmethod
+    def tearDown(self): ...
+
+    @abc.abstractmethod
+    def run(self, result: TestResult, test_case: "ITestCase") -> TestResult: ...
+
+
+class TestCase(BaseModel, ITestCase):
     """ロジックのコアとなるクラス"""
 
     name: str
@@ -11,14 +26,14 @@ class TestCase(BaseModel):
 
     def tearDown(self): ...
 
-    def run(self, result: TestResult) -> TestResult:
+    def run(self, result: TestResult, test_case: ITestCase) -> TestResult:
         result.testStarted()
-        self.setUp()
+        test_case.setUp()
         try:
-            method = getattr(self, self.name)
+            method = getattr(test_case, test_case.name)
             method()
         except Exception as e:
             print(e)
             result.testFailed()
-        self.tearDown()
+        test_case.tearDown()
         return result
