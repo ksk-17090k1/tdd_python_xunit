@@ -5,9 +5,7 @@ from my_unittest.TestResult import TestResult
 from my_unittest.TestSuite import TestSuite
 from my_unittest.utils import get_test_methods
 
-HR_LINE = (
-    "================================================================================="
-)
+HR_LINE = "=" * 40
 
 
 def main(cls: Type[TestCase]):
